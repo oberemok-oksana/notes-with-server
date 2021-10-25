@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 class="main-title">My notes</h1>
+      </header>
+      <div class="section-wrapper">
+        <section class="data-request">
+          <div class="wrapper-input">
+            <label for="topic">Topic</label>
+            <input
+              class="input"
+              id="topic"
+              type="text"
+              placeholder="Please type a topic"
+            />
+          </div>
+          <div class="wrapper-input">
+            <label for="note-body">Note</label>
+            <input
+              class="input"
+              id="note-body"
+              type="text"
+              placeholder="Type your text here"
+            />
+          </div>
+
+          <button class="add-btn btn">Add</button>
+          <button class="show-all-btn btn">Show all notes</button>
+        </section>
+        <section class="data-topics">
+          <ul class="list">
+            <!-- <li class="note-topic">
+              <i class="fas fa-check"></i>Buy milk<i
+                class="fas fa-caret-right"
+              ></i>
+            </li>
+            <li class="note-topic">
+              <i class="fas fa-check"></i>feed the cat<i
+                class="fas fa-caret-right"
+              ></i>
+            </li> -->
+          </ul>
+        </section>
+        <section class="full-note"></section>
+      </div>
+    </div>
+    <script
+      src="https://kit.fontawesome.com/d62a5df17d.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="index.js"></script>
+  </body>
+</html>
