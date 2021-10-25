@@ -15,7 +15,10 @@ app.get("/", (request, response) => {
 
 app.use("/assets", express.static(__dirname + "/static"));
 
-app.get("/notes", (request, response) => {
+app.get("/notes", async (request, response) => {
+  // simulate network throttling
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   response.setHeader("Content-Type", "application/json");
   response.send(JSON.stringify(notes));
 });

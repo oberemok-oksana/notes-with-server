@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let list = document.querySelector(".list");
   let fullNote = document.querySelector(".full-note");
 
+  list.innerHTML = "Loading...";
   fetch("/notes", {
     method: "GET",
     headers: {
