@@ -18,6 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let list = document.querySelector(".list");
   let fullNote = document.querySelector(".full-note");
 
+  fetch("/notes", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((resp) => resp.json())
+    .then((response) => {
+      notes = response;
+      createTask();
+    });
+
   addBtn.addEventListener("click", () => {
     if (topicInput.value === "" || noteBodyInput.value === "") {
       alert("Please type something");
