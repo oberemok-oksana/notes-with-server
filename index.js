@@ -1,13 +1,7 @@
 let express = require("express");
 let bodyParser = require("body-parser");
 
-let currentId = 4;
-let notes = [
-  { id: 1, topic: "buy", body: "milk" },
-  { id: 2, topic: "feed", body: " a cat" },
-  { id: 3, topic: "buy", body: "flowers for lovely wife" },
-];
-
+let currentId = 1;
 let app = express();
 
 app.use(bodyParser.json());
