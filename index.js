@@ -2,6 +2,7 @@ let express = require("express");
 let bodyParser = require("body-parser");
 
 let currentId = 1;
+let notes = [];
 let app = express();
 
 app.use(bodyParser.json());

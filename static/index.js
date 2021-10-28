@@ -9,6 +9,28 @@ class Note {
 let notes = [];
 let activeNote;
 
+function getNotes() {
+  return fetch("/notes", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((resp) => resp.json());
+}
+
+function addNote(topic, body) {
+  return fetch("/notes", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({
+      topic: topic,
+      body: body,
+    }),
+  }).then((response) => response.json());
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   let topicInput = document.querySelector("#topic");
   let noteBodyInput = document.querySelector("#note-body");
@@ -18,39 +40,21 @@ document.addEventListener("DOMContentLoaded", () => {
   let choseNoteDisplay = document.querySelector("chose-note");
 
   list.innerHTML = "Loading...";
-  fetch("/notes", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((resp) => resp.json())
-    .then((response) => {
-      notes = response;
-      redrawNotes();
-    });
+  getNotes().then((response) => {
+    notes = response;
+    redrawNotes();
+  });
 
   addBtn.addEventListener("click", () => {
     if (topicInput.value === "" || noteBodyInput.value === "") {
       alert("Please type something");
     } else {
-      fetch("/notes", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          topic: topicInput.value,
-          body: noteBodyInput.value,
-        }),
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          notes = json;
-          redrawNotes();
-          topicInput.value = "";
-          noteBodyInput.value = "";
-        });
+      addNote(topicInput.value, noteBodyInput.value).then((json) => {
+        notes = json;
+        redrawNotes();
+        topicInput.value = "";
+        noteBodyInput.value = "";
+      });
     }
   });
 
@@ -66,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
         (note) => note.id === parseInt(e.target.dataset.id)
       );
       showNote();
-      choseNoteDisplay.style.display = "none";
     }
   });
 
@@ -82,8 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function redrawNotes() {
+    list.innerHTML = "";
+
     if (notes.length > 0) {
-      list.innerHTML = "";
       notes.forEach((note) => {
         let li = document.createElement("li");
         li.classList.add("note-topic");
