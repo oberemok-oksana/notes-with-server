@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let addBtn = document.querySelector(".add-btn");
   let list = document.querySelector(".list");
   let fullNote = document.querySelector(".full-note");
+  let choseNoteDisplay = document.querySelector("chose-note");
 
   list.innerHTML = "Loading...";
   fetch("/notes", {
@@ -60,10 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
         activeNote.classList.remove("active");
       });
       e.target.classList.add("active");
+
       activeNote = notes.find(
         (note) => note.id === parseInt(e.target.dataset.id)
       );
       showNote();
+      choseNoteDisplay.style.display = "none";
     }
   });
 
