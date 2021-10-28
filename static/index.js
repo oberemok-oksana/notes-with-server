@@ -6,7 +6,6 @@ class Note {
   }
 }
 
-let currentId = 1;
 let notes = [];
 let activeNote;
 
@@ -14,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let topicInput = document.querySelector("#topic");
   let noteBodyInput = document.querySelector("#note-body");
   let addBtn = document.querySelector(".add-btn");
-  let showAllBtn = document.querySelector(".show-all-btn");
   let list = document.querySelector(".list");
   let fullNote = document.querySelector(".full-note");
 
@@ -28,18 +26,30 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((resp) => resp.json())
     .then((response) => {
       notes = response;
-      createTask();
+      redrawNotes();
     });
 
   addBtn.addEventListener("click", () => {
     if (topicInput.value === "" || noteBodyInput.value === "") {
       alert("Please type something");
     } else {
-      notes.push(new Note(currentId++, topicInput.value, noteBodyInput.value));
-
-      createTask();
-      topicInput.value = "";
-      noteBodyInput.value = "";
+      fetch("/notes", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          topic: topicInput.value,
+          body: noteBodyInput.value,
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          notes = json;
+          redrawNotes();
+          topicInput.value = "";
+          noteBodyInput.value = "";
+        });
     }
   });
 
@@ -60,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showNote() {
     fullNote.innerHTML = "";
     let title = document.createElement("h2");
+    title.classList.add("subtitle");
     title.innerHTML = activeNote.topic;
     let noteBody = document.createElement("div");
     noteBody.innerHTML = activeNote.body;
@@ -67,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fullNote.append(title, noteBody);
   }
 
-  function createTask() {
+  function redrawNotes() {
     if (notes.length > 0) {
       list.innerHTML = "";
       notes.forEach((note) => {
@@ -75,9 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         li.classList.add("note-topic");
         li.dataset.id = note.id;
         li.innerHTML = note.topic;
-        let arrow = document.createElement("i");
-        arrow.classList.add("fas", "fa-caret-right");
-        li.append(arrow);
         list.append(li);
       });
     }
