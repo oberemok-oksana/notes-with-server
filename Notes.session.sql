@@ -1,0 +1,5 @@
+CREATE TABLE notes(
+  id SERIAL PRIMARY KEY,
+  topic VARCHAR(80),
+  body VARCHAR(255)
+);

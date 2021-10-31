@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let addBtn = document.querySelector(".add-btn");
   let list = document.querySelector(".list");
   let fullNote = document.querySelector(".full-note");
-  let choseNoteDisplay = document.querySelector("chose-note");
 
   list.innerHTML = "Loading...";
   getNotes().then((response) => {
@@ -46,16 +45,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   addBtn.addEventListener("click", () => {
-    if (topicInput.value === "" || noteBodyInput.value === "") {
-      alert("Please type something");
-    } else {
-      addNote(topicInput.value, noteBodyInput.value).then((json) => {
-        notes = json;
-        redrawNotes();
-        topicInput.value = "";
-        noteBodyInput.value = "";
-      });
-    }
+    addNote(topicInput.value, noteBodyInput.value).then((response) => {
+      if (response.status === "error") {
+        alert(response.message);
+      } else {
+        getNotes().then((json) => {
+          notes = json;
+          redrawNotes();
+          topicInput.value = "";
+          noteBodyInput.value = "";
+        });
+      }
+    });
   });
 
   list.addEventListener("click", (e) => {
